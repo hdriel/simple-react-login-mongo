@@ -12,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import {useDispatch, useSelector} from "react-redux";
 import * as authActions from "../store/actions/auth";
 import {useHistory} from "react-router-dom";
+import {validateEmail} from "../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -66,7 +67,7 @@ export default function SignUp() {
 
     useEffect(() => {
         if(user) history.replace('/');
-    }, [dispatch, user]);
+    }, [history, user]);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -118,6 +119,8 @@ export default function SignUp() {
                                 autoComplete="email"
                                 onChange={handleChange}
                                 value={email}
+                                error ={email && !validateEmail(email)}
+                                errorText={'Invalid email'}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -150,6 +153,7 @@ export default function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        disabled={!email || !password || !firstName || !lastName}
                     >
                         Sign Up
                     </Button>

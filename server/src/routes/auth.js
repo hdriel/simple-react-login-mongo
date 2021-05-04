@@ -39,14 +39,22 @@ router.post('/signin', async function (req, res) {
 })
 
 router.post('/signup', async function (req, res) {
+    const userData = req.body;
+
     try {
-        const user = await registerUser(req.body);
+        const user = await registerUser(userData);
         return res.json(user);
     }
     catch (error) {
         const errMsg = error && error.message || error.toString();
         console.error(req.originalUrl, errMsg);
-        return res.status(500).json({error: SERVER_ERROR})
+
+        const { email } = userData || {};
+        const emailExists = new RegExp(`^E11000 duplicate key error collection: .*\.users index: email_1 dup key: { : "${email}" }`).test(errMsg);
+
+        return emailExists
+            ? res.status(403).json({error: 'The email address has already taken'})
+            : res.status(500).json({error: SERVER_ERROR})
     }
 })
 
