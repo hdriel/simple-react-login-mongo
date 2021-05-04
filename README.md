@@ -36,5 +36,3 @@ BUT wish to implement necessary features like:
 - unit tests
 - integration tests (with selenium / puppeteer)
 etc...
-  
-
