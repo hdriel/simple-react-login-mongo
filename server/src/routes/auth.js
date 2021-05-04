@@ -3,9 +3,13 @@ const router = express.Router();
 
 const { getUserByEmail, registerUser } = require('../models/user');
 
+// Client should not get real server errors
+const SERVER_ERROR = 'Opps.. Something went wrong, please try again later.';
+
 router.post('/signin', async function (req, res) {
     const urlLog = `${req.originalUrl} : `;
     const errMsg = 'incorrect email or password';
+
     try{
         const { email, password } = req.body;
         if(!email || !password){
@@ -26,21 +30,23 @@ router.post('/signin', async function (req, res) {
         }
 
         return res.json(user);
-    } catch (error) {
+    }
+    catch (error) {
         const errMsg = error && error.message || error.toString();
         console.error(urlLog, errMsg);
-        return res.status(500).json({error: errMsg})
+        return res.status(500).json({error: SERVER_ERROR})
     }
 })
 
 router.post('/signup', async function (req, res) {
-    try{
+    try {
         const user = await registerUser(req.body);
         return res.json(user);
-    } catch (error) {
+    }
+    catch (error) {
         const errMsg = error && error.message || error.toString();
         console.error(req.originalUrl, errMsg);
-        return res.status(500).json({error: errMsg})
+        return res.status(500).json({error: SERVER_ERROR})
     }
 })
 

@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
+    "install-client": "cd ../client && npm install",
+    "install-server": "npm install",
+    "build-client": "cd ../client && npm run build",
+    "start": "npm run build-client && node src/server.js",
     "dev": "nodemon src/server.js"
   },
   "author": "",
@@ -16,6 +19,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "concurrently": "^6.0.2",
     "nodemon": "^2.0.7"
   }
 }
