@@ -4,7 +4,9 @@ const path = require('path');
 const crossOrigin = require('./middlware/crossOriginMW');
 const mainRoute = require('./routes');
 const authRoute = require('./routes/auth');
-require('./utils/db-connection');
+const connectToDB = require('./utils/db-connection');
+
+(async () => await connectToDB())();
 
 const app = express();
 

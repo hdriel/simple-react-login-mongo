@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 
-const mongoDB = 'mongodb://127.0.0.1/mylocaldb';
-const connection = mongoose.createConnection(
-    mongoDB,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }
-);
+module.exports = async function (mongodbURI = 'mongodb://localhost/my-database'){
+    await mongoose.connect(
+        mongodbURI,
+        {
+            useCreateIndex: true,
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }
+    );
 
-// Bind connection to error event (to get notification of connection errors)
-connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
-connection.on('connected', () => console.log('Connected to mongodb'));
+    mongoose.connection.on('error', console.error.bind(console, 'connection to mongo failed with error:'))
+}
+

@@ -28,7 +28,7 @@ router.post('/signin', async function (req, res) {
         return res.json(user);
     } catch (error) {
         const errMsg = error && error.message || error.toString();
-        console.error(urlLog, error);
+        console.error(urlLog, errMsg);
         return res.status(500).json({error: errMsg})
     }
 })
@@ -39,7 +39,7 @@ router.post('/signup', async function (req, res) {
         return res.json(user);
     } catch (error) {
         const errMsg = error && error.message || error.toString();
-        console.error(req.originalUrl, error);
+        console.error(req.originalUrl, errMsg);
         return res.status(500).json({error: errMsg})
     }
 })

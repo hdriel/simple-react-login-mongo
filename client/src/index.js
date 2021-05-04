@@ -12,7 +12,6 @@ import Signup from './components/Signup';
 
 const Root = () => {
     const userExists = useSelector(state => !!state.auth.user);
-    console.log('userExists: ', userExists);
 
     return (
         <Router>

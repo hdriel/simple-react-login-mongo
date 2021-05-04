@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useDispatch, useSelector} from "react-redux";
 import * as authActions from "../store/actions/auth";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -37,8 +38,12 @@ export default function SignUp() {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const error = useSelector(state => state.auth.error);
+    const {error, user} = useSelector(state => ({
+        error: state.auth.error,
+        user: state.auth.user,
+    }));
 
+    const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -58,6 +63,10 @@ export default function SignUp() {
         }
         dispatch(authActions.clearError());
     }
+
+    useEffect(() => {
+        if(user) history.replace('/');
+    }, [dispatch, user]);
 
     return (
         <Container component="main" maxWidth="xs">

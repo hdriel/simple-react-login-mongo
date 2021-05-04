@@ -7,7 +7,10 @@ const UserSchema = new Schema({
     lastName: String,
     email: { type: String, required: true },
     password: { type: String, required: true },
-}, { timestamps: true });
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+});
 
 UserSchema.index({ email: 1 }, { unique: true });
 
@@ -24,6 +27,7 @@ module.exports.registerUser = function(userData) {
     return new UserModel(userData).save();
 }
 
-module.exports.getUserByEmail = function(email) {
-    return UserModel.find({ email }).lean();
+module.exports.getUserByEmail = async function(email) {
+    const user = await UserModel.findOne({ email }).exec();
+    return user && user.toJSON();
 }

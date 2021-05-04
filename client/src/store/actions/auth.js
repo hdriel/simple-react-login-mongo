@@ -11,13 +11,8 @@ export function singin(userData) {
             headers: { 'Content-Type' : 'application/json' },
             data: userData
         })
-            .then(user => {
-                debugger
-                dispatch({ type: LOGIN_SUCCESS, user })
-            })
-            .catch(request => {
-                dispatch({ type: LOGIN_FAILED, error: request?.response?.data?.error })
-            });
+        .then(response => dispatch({ type: LOGIN_SUCCESS, user: response?.data }))
+        .catch(request => dispatch({ type: LOGIN_FAILED, error: request?.response?.data?.error }));
     };
 }
 
@@ -28,13 +23,8 @@ export function singup(userData) {
             method: 'POST',
             data: userData
         })
-            .then(user => {
-                debugger
-                dispatch({ type: LOGIN_SUCCESS, user })
-            })
-            .catch(request => {
-                dispatch({ type: LOGIN_FAILED, error: request?.response?.data?.error })
-            });
+        .then(response => dispatch({ type: LOGIN_SUCCESS, user: response?.data }))
+        .catch(request => dispatch({ type: LOGIN_FAILED, error: request?.response?.data?.error }));
 
     };
 }
